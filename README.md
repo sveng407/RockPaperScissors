@@ -1,1 +1,1 @@
-# TikTakToe
+# Command line Rock Paper Scissors Game for a odinproject tutorial
