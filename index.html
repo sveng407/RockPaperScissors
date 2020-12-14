@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        
+
+
+        <script>
+            let message = "3...2...1...Go!";
+
+
+
+            //TikTakToe Start
+            let computerSelection;
+            function computerPlay() {
+                randomNum = Math.random() * 3;
+                if (randomNum <= 1) {
+                    computerSelection = "rock";
+                    return computerSelection;
+                } else if (randomNum > 1 && randomNum <= 2) {
+                    computerSelection = "scissors";
+                    return computerSelection;
+                } else {
+                    computerSelection = "paper";
+                    return computerSelection;
+                }
+            };
+
+            //randomly generate computer Selection
+            //ask player for input
+            // normalize input 
+            
+            // make playersel lowercase
+            // is playerSel equal to ComputerSel? -> tie 
+            // is playerSel rock?
+            //      is computerSel scissors? -> player wins +
+            //      is computerSel paper? -> computer wins
+            // is playerSel paper?
+            //      is computerSel scissors? -> computer wins
+            //      is computerSel rock? -> player wins
+            // is playerSel Scissors?
+            //      is computerSel paper? -> player wins
+            //      is computerSel rock? -> computer wins 
+            
+
+            function normalizeInput(input) {
+                input = input.toLowerCase();
+                //console.log("after lc" + input)
+                if (input == "r"|| input == "rocks"|| input == "roc"|| input == "rock") {
+                    return "rock"
+                } else if (input == "p"|| input == "papers" || input == "pape"|| input == "paper") {
+                    return "paper"
+                } else if (input == "s"|| input == "scissor" || input == "scisso"|| input == "scissors") {
+                    return "scissors"
+                } else {
+                    return "invalid";
+                }
+
+
+
+            };
+
+            function singleRoundRPS(playerSel) {
+                computerSel = computerPlay();
+                //console.log(playerSel);
+                playerSel = normalizeInput(playerSel);
+                //console.log(playerSel);
+                if (playerSel == computerSel) {
+                    return "It's a tie!"
+                } else if (playerSel == "rock") {
+                    if (computerSel == "scissors") {
+                        return "You win! " + playerSel + " beats " + computerSel;
+                    } else {
+                        return "You lose! " + computerSel + " beats " + playerSel;
+                    };
+                } else if (playerSel == "paper") {
+                    if (computerSel == "rock") {
+                        return "You win! " + playerSel + " beats " + computerSel;
+                    } else {
+                        return "You lose! " + computerSel + " beats " + playerSel;
+                    };
+                } else if (playerSel == "scissors") {
+                    if (computerSel == "paper") {
+                        return "You win! " + playerSel + " beats " + computerSel;
+                    } else {
+                        return "You lose! " + computerSel + " beats " + playerSel;
+                    };
+                } else {
+                    return "Input Invalid!";
+                }
+            }
+
+            // function: Gameplay till 5
+            // make variables playerScore and computerScore
+            // play 5 rounds. Output single results in console. add 1 to winner score
+            // playerScore > 5 player wins. computerScore > 5 computer wins.
+            function game() {
+                let playerScore = 0;
+                let computerScore = 0;
+                //let iterator = 0;
+                let oneGameRPS
+                let keepGoing = true;
+                while (keepGoing) {
+                    //console.log("while started")
+                    oneGameRPS = singleRoundRPS(prompt("312Go!"));
+                    console.log(oneGameRPS);
+                    if (oneGameRPS.includes("win")) {
+                        playerScore++;
+                    } else if (oneGameRPS.includes("lose")) {
+                        computerScore++;
+                    } 
+                    console.log("Your Score: " + playerScore + ", Computer Score: " + computerScore);
+
+                    if (playerScore == 5) {
+                        console.log("Player wins!")
+                        keepGoing = false;                        
+                    } else if (computerScore == 5) {
+                        console.log("Computer wins!")
+                        keepGoing = false;         
+                    }
+                }
+
+
+
+
+
+        }
+
+
+            //console.log(singleRoundRPS(prompt("3 ... 2 ... 1 ... Go!")));
+            game();
+        </script>
+    </body>
+</html>
