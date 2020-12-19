@@ -4,15 +4,89 @@
 
     </head>
     <body>
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+
+  
+        
         
 
 
+        <div id="result">
+            <p>Your Selection:</p>
+            <p id="playerSelectionP">-</p>
+            <p>Computer Selection:</p>
+            <p id="computerSelectionP">-</p>
+            <p>Your Score:</p> 
+            <p id="playerScoreP">0</p>
+            <p>Computer Score:</p>
+            <p id="computerScoreP">0</p>
+            <p>Round:</p>
+            <p id="roundP">0</p>
+            <p>Winner:</p>
+            <p id="winnerP">-</p>
+
+        </div>
+
+
+
+
+
         <script>
-            let message = "3...2...1...Go!";
+            const playerSelectionP = document.querySelector('#playerSelectionP');
+            const computerSelectionP = document.querySelector('#computerSelectionP');
+            const playerScoreP = document.querySelector('#playerScoreP');
+            const computerScoreP = document.querySelector('#computerScoreP');
+            const roundP = document.querySelector('#roundP');
+            const winnerP = document.querySelector('#winnerP');
+            
+            let roundCount = 0;
+            let playerScoreCount = 0;
+            let computerScoreCount = 0;
+            let roundOver = false;
 
+            function setOutput(playerSelection, computerSelection, winner) {
+                //test if round is over
+                if (roundOver) {
+                    roundCount = 0;
+                    playerScoreCount = 0;
+                    computerScoreCount = 0;
+                    roundOver = false;
+                    computerScoreP.textContent = computerScoreCount;
+                    playerScoreP.textContent = playerScoreCount;
+                }
 
+                //reset colors and winner
+                playerScoreP.style.color = "black";  
+                computerScoreP.style.color = "black";
+                winnerP.textContent = "-";
 
-            //TikTakToe Start
+                //output selections and round
+                playerSelectionP.textContent = playerSelection;
+                computerSelectionP.textContent = computerSelection;
+                roundP.textContent = ++roundCount;
+
+                //scoreCountsOutput
+                if (winner == "player") {
+                    playerScoreP.textContent = ++playerScoreCount;
+                    playerScoreP.style.color = "red";    
+                } else if (winner == "computer") {
+                    computerScoreP.textContent = ++computerScoreCount;
+                    computerScoreP.style.color = "red";
+                }
+
+                //test for 5 points
+                if (playerScoreCount == 5) {
+                    winnerP.textContent = "Player";
+                    roundOver = true;
+                } else if (computerScoreCount == 5) {
+                    winnerP.textContent = "Computer";
+                    roundOver = true;
+                }
+            }
+
+            //come up with computer selection
             let computerSelection;
             function computerPlay() {
                 randomNum = Math.random() * 3;
@@ -28,109 +102,44 @@
                 }
             };
 
-            //randomly generate computer Selection
-            //ask player for input
-            // normalize input 
-            
-            // make playersel lowercase
-            // is playerSel equal to ComputerSel? -> tie 
-            // is playerSel rock?
-            //      is computerSel scissors? -> player wins +
-            //      is computerSel paper? -> computer wins
-            // is playerSel paper?
-            //      is computerSel scissors? -> computer wins
-            //      is computerSel rock? -> player wins
-            // is playerSel Scissors?
-            //      is computerSel paper? -> player wins
-            //      is computerSel rock? -> computer wins 
-            
-
-            function normalizeInput(input) {
-                input = input.toLowerCase();
-                //console.log("after lc" + input)
-                if (input == "r"|| input == "rocks"|| input == "roc"|| input == "rock") {
-                    return "rock"
-                } else if (input == "p"|| input == "papers" || input == "pape"|| input == "paper") {
-                    return "paper"
-                } else if (input == "s"|| input == "scissor" || input == "scisso"|| input == "scissors") {
-                    return "scissors"
-                } else {
-                    return "invalid";
-                }
-
-
-
-            };
-
+            //play one round of RPS
             function singleRoundRPS(playerSel) {
                 computerSel = computerPlay();
-                //console.log(playerSel);
-                playerSel = normalizeInput(playerSel);
-                //console.log(playerSel);
                 if (playerSel == computerSel) {
-                    return "It's a tie!"
+                    setOutput(playerSel, computerSel, "tie")
                 } else if (playerSel == "rock") {
                     if (computerSel == "scissors") {
-                        return "You win! " + playerSel + " beats " + computerSel;
+                        setOutput(playerSel, computerSel, "player")
                     } else {
-                        return "You lose! " + computerSel + " beats " + playerSel;
+                        setOutput(playerSel, computerSel, "computer")
                     };
                 } else if (playerSel == "paper") {
                     if (computerSel == "rock") {
-                        return "You win! " + playerSel + " beats " + computerSel;
+                        setOutput(playerSel, computerSel, "player")
                     } else {
-                        return "You lose! " + computerSel + " beats " + playerSel;
+                        setOutput(playerSel, computerSel, "computer")
                     };
                 } else if (playerSel == "scissors") {
                     if (computerSel == "paper") {
-                        return "You win! " + playerSel + " beats " + computerSel;
+                        setOutput(playerSel, computerSel, "player")
                     } else {
-                        return "You lose! " + computerSel + " beats " + playerSel;
+                        setOutput(playerSel, computerSel, "computer")
                     };
-                } else {
-                    return "Input Invalid!";
                 }
-            }
-
-            // function: Gameplay till 5
-            // make variables playerScore and computerScore
-            // play 5 rounds. Output single results in console. add 1 to winner score
-            // playerScore > 5 player wins. computerScore > 5 computer wins.
-            function game() {
-                let playerScore = 0;
-                let computerScore = 0;
-                //let iterator = 0;
-                let oneGameRPS
-                let keepGoing = true;
-                while (keepGoing) {
-                    //console.log("while started")
-                    oneGameRPS = singleRoundRPS(prompt("312Go!"));
-                    console.log(oneGameRPS);
-                    if (oneGameRPS.includes("win")) {
-                        playerScore++;
-                    } else if (oneGameRPS.includes("lose")) {
-                        computerScore++;
-                    } 
-                    console.log("Your Score: " + playerScore + ", Computer Score: " + computerScore);
-
-                    if (playerScore == 5) {
-                        console.log("Player wins!")
-                        keepGoing = false;                        
-                    } else if (computerScore == 5) {
-                        console.log("Computer wins!")
-                        keepGoing = false;         
-                    }
-                }
+            };
 
 
+            //buttons and listeners
+
+            const rockButton = document.querySelector('#rock'); 
+            const paperButton = document.querySelector('#paper'); 
+            const scissorsButton = document.querySelector('#scissors'); 
+
+            rockButton.addEventListener('click', function (){ singleRoundRPS("rock"); });
+            paperButton.addEventListener('click', function (){ singleRoundRPS("paper"); });
+            scissorsButton.addEventListener('click', function (){ singleRoundRPS("scissors"); });
 
 
-
-        }
-
-
-            //console.log(singleRoundRPS(prompt("3 ... 2 ... 1 ... Go!")));
-            game();
         </script>
     </body>
 </html>
